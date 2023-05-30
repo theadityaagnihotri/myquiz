@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "717666697460",
+    "project_id": "myquiz-ca3ce",
+    "storage_bucket": "myquiz-ca3ce.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717666697460:android:b731011f7d1aece672dea1",
+        "android_client_info": {
+          "package_name": "com.aditya.myquiz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUuW0AhCYt87UGPnqTAKkplCPMsJRK5zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
