@@ -20,12 +20,20 @@ class _MySignupFormState extends State<MySignupForm> {
   void _signupUser(String email, String password, BuildContext context) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     try {
-      if (await _currentUser.signupUser(email, password)) {
+      String _returnString = await _currentUser.signupUser(email, password);
+      if (_returnString == "success") {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => MyLogin(),
           ),
           (Route<dynamic> route) => false,
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(_returnString),
+            duration: Duration(seconds: 2),
+          ),
         );
       }
     } catch (e) {
