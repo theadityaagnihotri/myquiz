@@ -25,7 +25,7 @@ class _MyLoginFormState extends State<MyLoginForm> {
     try {
       String _returnString =
           await _currentUser.loginUserWithEmail(email, password);
-      if (_returnString == "success") {
+      if (_returnString == "Success") {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => HomeScreen(),

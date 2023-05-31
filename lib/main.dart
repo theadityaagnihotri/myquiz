@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:myquiz/screens/login/login.dart';
+import 'package:myquiz/screens/root/root.dart';
 import 'package:myquiz/states/currentuser.dart';
 import 'package:myquiz/utils/theme.dart';
 import 'package:provider/provider.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Quiz',
         theme: MyTheme().buildTheme(),
-        home: MyLogin(),
+        home: MyRoot(),
       ),
     );
   }

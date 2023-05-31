@@ -10,6 +10,32 @@ class CurrentUser extends ChangeNotifier {
   String get getEmail => _email;
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  Future<String> onStartup() async {
+    String retVal = "error";
+    try {
+      User _firebaseUser = await _auth.currentUser!;
+      _uid = _firebaseUser.uid;
+      _email = _firebaseUser.email.toString();
+      retVal = "Success";
+    } catch (e) {
+      retVal = e.toString();
+    }
+    return retVal;
+  }
+
+  Future<String> onSignOut() async {
+    String retVal = "error";
+    try {
+      await _auth.signOut();
+      _uid = "";
+      _email = "";
+      retVal = "Success";
+    } catch (e) {
+      retVal = e.toString();
+    }
+    return retVal;
+  }
+
   Future<String> signupUser(String email, String password) async {
     String retVal = "error";
 
