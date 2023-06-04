@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 enum AuthStatus {
   notloggedIn,
   loggedIn,
+  check,
 }
 
 class MyRoot extends StatefulWidget {
@@ -15,7 +16,7 @@ class MyRoot extends StatefulWidget {
 }
 
 class _MyRootState extends State<MyRoot> {
-  AuthStatus _authStatus = AuthStatus.notloggedIn;
+  AuthStatus _authStatus = AuthStatus.check;
 
   @override
   void didChangeDependencies() async {
@@ -29,12 +30,16 @@ class _MyRootState extends State<MyRoot> {
       setState(() {
         _authStatus = AuthStatus.loggedIn;
       });
+    } else {
+      setState(() {
+        _authStatus = AuthStatus.notloggedIn;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    Widget retVal = MyLogin();
+    Widget retVal = _CPI();
     switch (_authStatus) {
       case AuthStatus.notloggedIn:
         retVal = MyLogin();
@@ -46,4 +51,12 @@ class _MyRootState extends State<MyRoot> {
     }
     return retVal;
   }
+}
+
+Widget _CPI() {
+  return const Scaffold(
+    body: Center(
+      child: CircularProgressIndicator(),
+    ),
+  );
 }

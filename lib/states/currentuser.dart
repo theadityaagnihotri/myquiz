@@ -1,22 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:myquiz/models/user_data.dart';
+import 'package:myquiz/services/databse.dart';
+
+import '../services/databse.dart';
 
 class CurrentUser extends ChangeNotifier {
-  String _uid = "";
-  String _email = "";
+  MyUser _currentUser = MyUser(uid: "", email: "", name: "");
 
-  String get getuid => _uid;
-  String get getEmail => _email;
+  MyUser get getcurrentUser => _currentUser;
+
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> onStartup() async {
     String retVal = "error";
+
     try {
-      User _firebaseUser = await _auth.currentUser!;
-      _uid = _firebaseUser.uid;
-      _email = _firebaseUser.email.toString();
-      retVal = "Success";
+      FirebaseAuth user = FirebaseAuth.instance;
+      if (user.currentUser != null) {
+        retVal = "Success";
+      }
     } catch (e) {
       retVal = e.toString();
     }
@@ -27,8 +32,7 @@ class CurrentUser extends ChangeNotifier {
     String retVal = "error";
     try {
       await _auth.signOut();
-      _uid = "";
-      _email = "";
+      _currentUser = MyUser(uid: "", email: "", name: "");
       retVal = "Success";
     } catch (e) {
       retVal = e.toString();
@@ -36,13 +40,20 @@ class CurrentUser extends ChangeNotifier {
     return retVal;
   }
 
-  Future<String> signupUser(String email, String password) async {
+  Future<String> signupUser(String email, String password, String name) async {
     String retVal = "error";
-
+    MyUser _user = MyUser(uid: "", email: "", name: "");
     try {
-      await _auth.createUserWithEmailAndPassword(
+      UserCredential _authResult = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      retVal = "success";
+      _user.uid = _authResult.user!.uid;
+      _user.email = _authResult.user!.email.toString();
+      _user.name = name;
+      MyDatabase data = MyDatabase();
+      String _retString = await data.createUser(_user);
+      if (_retString == "Success") {
+        retVal = "Success";
+      }
     } catch (e) {
       retVal = e.toString();
     }
@@ -52,13 +63,13 @@ class CurrentUser extends ChangeNotifier {
 
   Future<String> loginUserWithEmail(String email, String password) async {
     String retVal = "error";
+    MyDatabase _data = MyDatabase();
 
     try {
       UserCredential _authResult = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      if (_authResult.user != null) {
-        _uid = _authResult.user!.uid;
-        _email = _authResult.user!.email.toString();
+      _currentUser = await _data.getuserInfo(_authResult.user!.uid);
+      if (_currentUser != null) {
         retVal = "Success";
       }
     } catch (e) {
@@ -76,6 +87,8 @@ class CurrentUser extends ChangeNotifier {
         'https://www.googleapis.com/auth/contacts.readonly',
       ],
     );
+    MyUser _user = MyUser(uid: "", email: "", name: "");
+    MyDatabase _data = MyDatabase();
     try {
       GoogleSignInAccount? _googleUser = await _googlesignin.signIn();
       GoogleSignInAuthentication _googleAuth =
@@ -83,9 +96,14 @@ class CurrentUser extends ChangeNotifier {
       final AuthCredential credential = GoogleAuthProvider.credential(
           idToken: _googleAuth.idToken, accessToken: _googleAuth.accessToken);
       UserCredential _authResult = await _auth.signInWithCredential(credential);
-      if (_authResult.user != null) {
-        _uid = _authResult.user!.uid;
-        _email = _authResult.user!.email.toString();
+      if (_authResult.additionalUserInfo!.isNewUser) {
+        _user.uid = _authResult.user!.uid;
+        _user.email = _authResult.user!.email.toString();
+        _user.name = _authResult.user!.displayName.toString();
+        _data.createUser(_user);
+      }
+      _currentUser = await _data.getuserInfo(_authResult.user!.uid);
+      if (_currentUser != null) {
         retVal = "Success";
       }
     } catch (e) {

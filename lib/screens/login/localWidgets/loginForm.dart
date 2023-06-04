@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myquiz/screens/home/home.dart';
 import 'package:myquiz/screens/signup/signup.dart';
 import 'package:myquiz/states/currentuser.dart';
+import 'package:myquiz/utils/theme.dart';
 import 'package:provider/provider.dart';
 
 import '../../../widgets/myContainer.dart';
@@ -156,7 +157,7 @@ class _MyLoginFormState extends State<MyLoginForm> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 213, 235, 220),
+              backgroundColor: Theme.of(context).buttonColor,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -171,11 +172,10 @@ class _MyLoginFormState extends State<MyLoginForm> {
           TextButton(
             child: Text("Don't have an account? Sign up here"),
             onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
+              Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => MySignup(),
                 ),
-                (Route<dynamic> route) => false,
               );
             },
           ),

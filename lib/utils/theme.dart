@@ -3,24 +3,26 @@ import 'package:flutter/material.dart';
 
 class MyTheme {
   ThemeData buildTheme() {
-    Color _appbar = Color.fromARGB(255, 97, 194, 162);
-    Color _lightgreen = Color.fromARGB(255, 213, 235, 220);
-    Color _lightgrey = Color.fromARGB(255, 164, 164, 164);
-    Color _darkergrey = Color.fromARGB(255, 119, 124, 135);
+    Color appbar = Color.fromARGB(255, 97, 194, 162);
+    Color lightgreen = Color.fromARGB(255, 213, 235, 220);
+    Color lightgrey = Color.fromARGB(255, 164, 164, 164);
+    Color darkergrey = Color.fromARGB(255, 119, 124, 135);
     return ThemeData(
       appBarTheme: AppBarTheme(
-        color: _appbar,
+        color: appbar,
       ),
-      canvasColor: _lightgreen,
+      buttonColor: appbar,
+      primaryColorDark: appbar,
+      canvasColor: lightgreen,
       primaryColor: Colors.white70,
-      accentColor: _lightgrey,
-      secondaryHeaderColor: _darkergrey,
-      hintColor: _lightgrey,
+      accentColor: lightgrey,
+      secondaryHeaderColor: darkergrey,
+      hintColor: lightgrey,
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide(
-            color: _lightgrey,
+            color: lightgrey,
           ),
         ),
         focusedBorder: OutlineInputBorder(

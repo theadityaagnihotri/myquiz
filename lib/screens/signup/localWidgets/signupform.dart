@@ -17,11 +17,13 @@ class _MySignupFormState extends State<MySignupForm> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _cnfPasswordController = TextEditingController();
 
-  void _signupUser(String email, String password, BuildContext context) async {
+  void _signupUser(
+      String email, String password, BuildContext context, String name) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     try {
-      String _returnString = await _currentUser.signupUser(email, password);
-      if (_returnString == "success") {
+      String _returnString =
+          await _currentUser.signupUser(email, password, name);
+      if (_returnString == "Success") {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
             builder: (context) => MyLogin(),
@@ -115,7 +117,7 @@ class _MySignupFormState extends State<MySignupForm> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(255, 213, 235, 220),
+              backgroundColor: Theme.of(context).buttonColor,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
@@ -124,8 +126,8 @@ class _MySignupFormState extends State<MySignupForm> {
             ),
             onPressed: () {
               if (_passwordController.text == _cnfPasswordController.text) {
-                _signupUser(
-                    _emailController.text, _passwordController.text, context);
+                _signupUser(_emailController.text, _passwordController.text,
+                    context, _nameController.text);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
