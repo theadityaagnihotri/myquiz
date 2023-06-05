@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/material/theme.dart';
+import 'package:image_picker/image_picker.dart';
 
 class IndividualQuiz extends StatefulWidget {
   String code;
@@ -19,7 +20,8 @@ class _IndividualQuizState extends State<IndividualQuiz> {
 
   List<GlobalKey<FormState>> formKeys = [];
   List<TextEditingController> controllers = [];
-
+  Map<int, XFile?> fileControllers = {};
+  Map<int, bool> disab = {};
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -45,7 +47,7 @@ class _IndividualQuizState extends State<IndividualQuiz> {
           itemBuilder: (context, int index) {
             if (index < questions) {
               formKeys.add(GlobalKey<FormState>());
-              for (int i = 5 * index + 1; i < 5 * index + 6; i++) {
+              for (int i = 5 * index; i < 5 * index + 5; i++) {
                 controllers.add(TextEditingController());
               }
 
@@ -62,6 +64,14 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                           child: Column(
                             children: [
                               TextFormField(
+                                readOnly: controllers[5 * index].text == ''
+                                    ? false
+                                    : true,
+                                // controller: fileControllers[index] != null
+                                //     ? TextEditingController(
+                                //         text: "Image Uploaded")
+                                //     : controllers[5 * index ],
+
                                 controller: controllers[5 * index],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -70,8 +80,27 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () async {
+                                      final ImagePicker _picker = ImagePicker();
+                                      final XFile? image =
+                                          await _picker.pickImage(
+                                              source: ImageSource.gallery);
+                                      if (image != null) {
+                                        setState(() {
+                                          fileControllers[index] = image;
+                                          controllers[5 * index].text =
+                                              image.name;
+                                        });
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.file_upload_outlined,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
                                   labelText:
-                                      'Question' + (index + 1).toString(),
+                                      'Question ' + (index + 1).toString(),
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
                                       width: 3,
@@ -88,6 +117,9 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                               ),
                               SizedBox(height: 16.0),
                               TextFormField(
+                                readOnly: controllers[5 * index + 1].text == ''
+                                    ? false
+                                    : true,
                                 controller: controllers[5 * index + 1],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -96,6 +128,25 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () async {
+                                      final ImagePicker _picker = ImagePicker();
+                                      final XFile? image =
+                                          await _picker.pickImage(
+                                              source: ImageSource.gallery);
+                                      if (image != null) {
+                                        setState(() {
+                                          fileControllers[index] = image;
+                                          controllers[5 * index + 1].text =
+                                              image.name;
+                                        });
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.file_upload_outlined,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
                                   labelText: 'Option 1',
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -113,6 +164,9 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                               ),
                               SizedBox(height: 16.0),
                               TextFormField(
+                                readOnly: controllers[5 * index + 2].text == ''
+                                    ? false
+                                    : true,
                                 controller: controllers[5 * index + 2],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -121,6 +175,25 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () async {
+                                      final ImagePicker _picker = ImagePicker();
+                                      final XFile? image =
+                                          await _picker.pickImage(
+                                              source: ImageSource.gallery);
+                                      if (image != null) {
+                                        setState(() {
+                                          fileControllers[index] = image;
+                                          controllers[5 * index + 2].text =
+                                              image.name;
+                                        });
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.file_upload_outlined,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
                                   labelText: 'Option 2',
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -138,6 +211,9 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                               ),
                               SizedBox(height: 16.0),
                               TextFormField(
+                                readOnly: controllers[5 * index + 3].text == ''
+                                    ? false
+                                    : true,
                                 controller: controllers[5 * index + 3],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -146,6 +222,25 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () async {
+                                      final ImagePicker _picker = ImagePicker();
+                                      final XFile? image =
+                                          await _picker.pickImage(
+                                              source: ImageSource.gallery);
+                                      if (image != null) {
+                                        setState(() {
+                                          fileControllers[index] = image;
+                                          controllers[5 * index + 3].text =
+                                              image.name;
+                                        });
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.file_upload_outlined,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
                                   labelText: 'Option 3',
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
@@ -163,6 +258,9 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                               ),
                               SizedBox(height: 16.0),
                               TextFormField(
+                                readOnly: controllers[5 * index + 4].text == ''
+                                    ? false
+                                    : true,
                                 controller: controllers[5 * index + 4],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -171,6 +269,25 @@ class _IndividualQuizState extends State<IndividualQuiz> {
                                   return null;
                                 },
                                 decoration: InputDecoration(
+                                  suffixIcon: GestureDetector(
+                                    onTap: () async {
+                                      final ImagePicker _picker = ImagePicker();
+                                      final XFile? image =
+                                          await _picker.pickImage(
+                                              source: ImageSource.gallery);
+                                      if (image != null) {
+                                        setState(() {
+                                          fileControllers[index] = image;
+                                          controllers[5 * index + 4].text =
+                                              image.name;
+                                        });
+                                      }
+                                    },
+                                    child: Icon(
+                                      Icons.file_upload_outlined,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
                                   labelText: 'Option 4',
                                   border: UnderlineInputBorder(
                                     borderSide: BorderSide(
